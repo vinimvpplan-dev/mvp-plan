@@ -59,7 +59,7 @@ export default function Home() {
             Férias para Sempre
           </h1>
           <p className="text-lg md:text-xl text-muted-foreground font-light max-w-2xl">
-            Planeje sua independência financeira com precisão matemática e clareza visual.
+            Simule quanto você precisa acumular de patrimônio para viver de renda.
           </p>
         </motion.header>
 
