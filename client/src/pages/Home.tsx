@@ -257,55 +257,7 @@ export default function Home() {
           </motion.div>
         </div>
       </motion.div>
-        {/* Personal Story / CTA */}
-        <div className="mt-24 max-w-4xl mx-auto text-center space-y-6">
-          <p className="text-xl md:text-2xl font-semibold text-foreground leading-relaxed">
-            Se você não sabe por onde começar a planejar sua aposentadoria, eu posso te ajudar.
-          </p>
-
-          <p className="text-base text-muted-foreground leading-relaxed">
-            Meu nome é <strong>Vinicius</strong>. Sou <strong>Cientista de Dados</strong>, atuo na área
-            área financeira como <strong> analista de pricing sênior em uma startup</strong> e trabalho 
-            também como educador financeiro.
-          </p>
-
-          <p className="text-base text-muted-foreground leading-relaxed">
-            Em 2019, eu estava desempregado, <strong>com mais de R$ 60 mil em dívidas</strong> e com o nome negativado. 
-            Hoje, sem qualquer restrição, construo patrimônio investindo em ações, títulos e outros 
-            ativos. Mais do que teoria, eu conheço na prática o caminho que leva do descontrole 
-            financeiro à organização e ao investimento consciente.
-          </p>
-
-          <div className="mt-8 max-w-3xl mx-auto text-center space-y-4">
-            <p className="text-base md:text-lg text-muted-foreground">
-              Quero usar esse conhecimento para te ajudar a:
-            </p>
-
-            <ul className="text-base md:text-lg text-muted-foreground space-y-2 text-left inline-block">
-              <li>• organizar suas finanças,</li>
-              <li>• criar um plano realista para aumentar sua renda,</li>
-              <li>• estruturar um planejamento sólido para o seu futuro.</li>
-            </ul>
-
-            <p className="pt-4 text-base md:text-lg text-muted-foreground">
-              Se você busca <strong>clareza</strong>, <strong>método</strong> e
-              <strong> decisões melhores</strong> com o seu dinheiro,
-            </p>
-          </div>
-
-
-          {/* CTA */}
-          <div className="pt-6">
-            <a href="https://wa.me/5511957125951"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-3 px-8 py-4 rounded-xl bg-primary text-primary-foreground font-semibold text-lg hover:opacity-90 transition"
-            >
-            <span>Quero mudar minha vida financeira</span>
-            <MessageSquare className="w-5 h-5" />
-          </a>
-          </div>
-        </div>
+      
         
         <hr className="my-16 border-t border-muted-foreground/30" />
 
