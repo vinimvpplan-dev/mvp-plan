@@ -7,7 +7,8 @@ import { FIPEZAP_DATA } from "@/lib/financial-constants";
 import { useFinancialCalculations } from "@/hooks/useFinancialCalculations";
 import { PortfolioDonut } from "@/components/charts/PortfolioDonut";
 import { EvolutionAreaChart } from "@/components/charts/EvolutionAreaChart";
-import { ArrowRight, Building2, TrendingUp, Wallet, Calendar, PiggyBank } from "lucide-react";
+import { ArrowRight, Building2, TrendingUp, Wallet, Calendar, PiggyBank, MessageSquare } from "lucide-react";
+import { FaWhatsapp } from "react-icons/fa";
 
 export default function Home() {
   const [aporteMensal, setAporteMensal] = useState(1500);
@@ -59,7 +60,7 @@ export default function Home() {
             Férias para Sempre
           </h1>
           <p className="text-lg md:text-xl text-muted-foreground font-light max-w-2xl">
-            Simule quanto você precisa acumular de patrimônio para viver de renda.
+            Simule quanto você precisa juntar para viver de renda.
           </p>
         </motion.header>
 
@@ -69,25 +70,10 @@ export default function Home() {
           <motion.div className="lg:col-span-4 space-y-6" variants={itemVariants}>
             <Card className="glass-card p-6 md:p-8 space-y-8 h-full border-white/40">
               
-              {/* Aporte Mensal */}
-              <div className="space-y-4">
-                <div className="flex justify-between items-center">
-                  <label className="text-sm font-medium text-muted-foreground">Aporte Mensal</label>
-                  <span className="text-xl font-bold text-primary">{formatCurrency(aporteMensal)}</span>
-                </div>
-                <Slider 
-                  value={[aporteMensal]} 
-                  onValueChange={(v) => setAporteMensal(v[0])} 
-                  max={20000} 
-                  step={100}
-                  className="py-2"
-                />
-              </div>
-
               {/* Salário Desejado */}
               <div className="space-y-4">
                 <div className="flex justify-between items-center">
-                  <label className="text-sm font-medium text-muted-foreground">Renda Passiva Desejada</label>
+                  <label className="text-sm font-medium text-muted-foreground">Salário futuro desejado</label>
                   <span className="text-xl font-bold text-primary">{formatCurrency(salarioDesejado)}</span>
                 </div>
                 <Slider 
@@ -100,22 +86,63 @@ export default function Home() {
               </div>
 
               {/* Alocação de Portfólio */}
+              {/* Alocação de Portfólio */}
+                <div className="space-y-6">
+                  {/* Header */}
+                  <div className="flex justify-between items-center">
+                    <label className="text-sm font-medium text-muted-foreground">
+                      Como dividir seu dinheiro
+                    </label>
+                  </div>
+
+                  {/* Imóveis Slider */}
+                  <div className="space-y-2">
+                    <div className="flex justify-between items-center text-sm">
+                      <span className="text-muted-foreground">Imóveis</span>
+                      <span className="font-bold text-primary">
+                        {Math.round(porcentualImoveis * 100)}%
+                      </span>
+                    </div>
+
+                    <Slider
+                      value={[porcentualImoveis]}
+                      onValueChange={(v) => setPorcentualImoveis(v[0])}
+                      max={1}
+                      step={0.05}
+                    />
+                  </div>
+
+                  {/* Financeiro Slider (linked) */}
+                  <div className="space-y-2">
+                    <div className="flex justify-between items-center text-sm">
+                      <span className="text-muted-foreground">Financeiro</span>
+                      <span className="font-bold text-primary">
+                        {Math.round((1 - porcentualImoveis) * 100)}%
+                      </span>
+                    </div>
+
+                    <Slider
+                      value={[1 - porcentualImoveis]}
+                      onValueChange={(v) => setPorcentualImoveis(1 - v[0])}
+                      max={1}
+                      step={0.05}
+                    />
+                  </div>
+                </div>
+
+                            {/* Aporte Mensal */}
               <div className="space-y-4">
                 <div className="flex justify-between items-center">
-                  <label className="text-sm font-medium text-muted-foreground">Alocação em Imóveis</label>
-                  <span className="text-xl font-bold text-primary">{Math.round(porcentualImoveis * 100)}%</span>
+                  <label className="text-sm font-medium text-muted-foreground">Quanto você pode investir mensalmente</label>
+                  <span className="text-xl font-bold text-primary">{formatCurrency(aporteMensal)}</span>
                 </div>
                 <Slider 
-                  value={[porcentualImoveis]} 
-                  onValueChange={(v) => setPorcentualImoveis(v[0])} 
-                  max={1} 
-                  step={0.05}
+                  value={[aporteMensal]} 
+                  onValueChange={(v) => setAporteMensal(v[0])} 
+                  max={20000} 
+                  step={100}
                   className="py-2"
                 />
-                <div className="flex justify-between text-xs text-muted-foreground px-1">
-                  <span>Financeiro ({Math.round((1 - porcentualImoveis) * 100)}%)</span>
-                  <span>Imóveis ({Math.round(porcentualImoveis * 100)}%)</span>
-                </div>
               </div>
 
               {/* Seleção de Cidade */}
@@ -133,6 +160,15 @@ export default function Home() {
                     ))}
                   </SelectContent>
                 </Select>
+                <p className="text-xs text-muted-foreground leading-snug">
+                  Se você optou por alocar parte do seu patrimônio em imóveis, selecione uma das
+                  cidades da lista ou alguma com características semelhantes para obter uma
+                  estimativa mais precisa.
+                </p>
+                <p className="text-xs text-muted-foreground leading-snug">
+                  Se não houver alocação em imóveis no seu portfólio, este campo não impacta a simulação e pode ser ignorado. 
+                </p>
+
               </div>
 
             </Card>
@@ -155,7 +191,7 @@ export default function Home() {
                     <Calendar className="w-6 h-6" />
                   </div>
                   <div>
-                    <p className="text-xs text-muted-foreground font-medium">Tempo Estimado</p>
+                    <p className="text-xs text-muted-foreground font-medium">Tempo estimado para atingir sua liberdade financeira</p>
                     <p className="text-2xl font-bold text-foreground">
                       {Math.floor(results.tempoAnos)} anos <span className="text-sm font-normal text-muted-foreground">e {Math.round((results.tempoAnos % 1) * 12)} meses</span>
                     </p>
@@ -221,6 +257,127 @@ export default function Home() {
           </motion.div>
         </div>
       </motion.div>
+        {/* Personal Story / CTA */}
+        <div className="mt-24 max-w-4xl mx-auto text-center space-y-6">
+          <p className="text-xl md:text-2xl font-semibold text-foreground leading-relaxed">
+            Se você não sabe por onde começar a planejar sua aposentadoria, eu posso te ajudar.
+          </p>
+
+          <p className="text-base text-muted-foreground leading-relaxed">
+            Meu nome é <strong>Vinicius</strong>. Sou <strong>Cientista de Dados</strong>, atuo na área
+            área financeira como <strong> analista de pricing sênior em uma startup famosa</strong> e trabalho 
+            também como educador financeiro.
+          </p>
+
+          <p className="text-base text-muted-foreground leading-relaxed">
+            Em 2019, eu estava desempregado, <strong>com mais de R$ 60 mil em dívidas</strong> e com o nome negativado. 
+            Hoje, sem qualquer restrição, construo patrimônio investindo em ações, títulos e outros 
+            ativos. Mais do que teoria, eu conheço na prática o caminho que leva do descontrole 
+            financeiro à organização e ao investimento consciente.
+          </p>
+
+          <div className="mt-8 max-w-3xl mx-auto text-center space-y-4">
+            <p className="text-base md:text-lg text-muted-foreground">
+              Quero usar esse conhecimento para te ajudar a:
+            </p>
+
+            <ul className="text-base md:text-lg text-muted-foreground space-y-2 text-left inline-block">
+              <li>• organizar suas finanças,</li>
+              <li>• criar um plano realista para aumentar sua renda,</li>
+              <li>• estruturar um planejamento sólido para o seu futuro.</li>
+            </ul>
+
+            <p className="pt-4 text-base md:text-lg text-muted-foreground">
+              Se você busca <strong>clareza</strong>, <strong>método</strong> e
+              <strong> decisões melhores</strong> com o seu dinheiro,
+            </p>
+          </div>
+
+
+          {/* CTA */}
+          <div className="pt-6">
+            <a href="https://wa.me/5511957125951"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-3 px-8 py-4 rounded-xl bg-primary text-primary-foreground font-semibold text-lg hover:opacity-90 transition"
+            >
+            <span>Quero mudar minha vida financeira</span>
+            <MessageSquare className="w-5 h-5" />
+          </a>
+          </div>
+        </div>
+        
+        <hr className="my-16 border-t border-muted-foreground/30" />
+
+
+      {/* Fine Print / Disclaimers */}
+        <div className="mt-16 max-w-5xl mx-auto text-xs leading-relaxed text-muted-foreground space-y-4">
+          <p>
+            Investimentos têm seus riscos e desempenho passado (retorno) não é garantia de retorno futuro.
+          </p>
+          <p>
+            Quando o assunto é aluguel, é necessário considerar fatores como períodos
+            de vacância, custos deixados por inquilinos anteriores (contas atrasadas ou
+            danos ao imóvel) e eventuais taxas cobradas por imobiliárias. Em imóveis
+            localizados em condomínios, durante períodos de vacância, todos os custos —
+            como taxa condominial — permanecem sob responsabilidade do proprietário,
+            impactando o retorno total do investimento.
+          </p>
+
+          <p>
+            Nas simulações apresentadas, não são consideradas eventuais receitas de
+            aposentadoria pelo INSS. Os resultados refletem exclusivamente receitas
+            oriundas de investimentos, seja por meio de aluguéis ou de rendimentos de
+            ativos financeiros.
+          </p>
+
+          <p>
+            Os valores simulados partem de um cenário fixo, hipotético e com finalidade
+            exclusivamente educativa. Para uma análise personalizada e adequada à sua
+            realidade, recomenda-se a consulta com um profissional de planejamento
+            financeiro.
+          </p>
+
+          <p>
+            Para o cálculo de ativos financeiros, foi utilizado como referência o
+            Tesouro Prefixado 2032, com taxa nominal de 13,48% a.a. na data de
+            16/12/2025, resultando em uma rentabilidade líquida estimada de 11,74% a.a.,
+            já descontado o IRRF.
+          </p>
+
+          <p>
+            A rentabilidade real foi calculada utilizando a equação de Fisher,
+            considerando o IPCA acumulado dos últimos 12 meses (4,87%), conforme dados
+            do IBGE na data de 16/12/2025.
+          </p>
+
+          <p>
+            Para estimativas de retorno com aluguéis residenciais, foi utilizado o
+            Índice FipeZap referente ao mês de novembro de 2025.
+          </p>
+
+          <p>
+            Os valores de renda apresentados já consideram a preservação do poder de
+            compra do capital investido, descontando a inflação (IPCA). Esse conceito é
+            conhecido como <strong>Taxa Segura de Retirada (TSR)</strong>.
+          </p>
+
+          <p>
+            Existem diversas outras estratégias de alocação de ativos que não estão
+            contempladas nesta simulação. Os exemplos utilizados foram simplificados
+            intencionalmente para fins educativos.
+          </p>
+          
+          <p>
+            É importante destacar que o valor destinado a imóveis nesta simulação pode 
+            não refletir exatamente a realidade. Os preços dos imóveis variam bastante 
+            de uma região para outra. Por exemplo, se você possui um patrimônio de R$ 500 mil 
+            e decide alocar 10% em imóveis, isso representaria R$ 50 mil — um valor que, 
+            na prática, dificilmente seria suficiente para a compra de um imóvel residencial.
+          </p>
+          
+        </div>
+
     </div>
   );
 }
