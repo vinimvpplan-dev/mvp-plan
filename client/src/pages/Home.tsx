@@ -265,7 +265,7 @@ export default function Home() {
 
           <p className="text-base text-muted-foreground leading-relaxed">
             Meu nome é <strong>Vinicius</strong>. Sou <strong>Cientista de Dados</strong>, atuo na área
-            área financeira como <strong> analista de pricing sênior em uma startup famosa</strong> e trabalho 
+            área financeira como <strong> analista de pricing sênior em uma startup</strong> e trabalho 
             também como educador financeiro.
           </p>
 
